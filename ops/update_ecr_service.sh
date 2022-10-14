@@ -1,5 +1,7 @@
 #!/bin/bash
 
+AWS_PROFILE=secbokapp-cdk
+
 if [ "${TARGET_ENV}" = "" ]; then
   echo '[Error]'
   echo '- TARGET_ENV param required. [ local | dev | prod ]'
@@ -7,21 +9,21 @@ if [ "${TARGET_ENV}" = "" ]; then
   exit 1
 fi
 
-CLUSTER_ARN=`aws ecs list-clusters | jq -r '.clusterArns[]' | grep ${TARGET_ENV}`
+CLUSTER_ARN=`aws ecs list-clusters --profile ${AWS_PROFILE} | jq -r '.clusterArns[]' | grep ${TARGET_ENV}`
 if [ "${CLUSTER_ARN}" = "" ]; then
   echo '[Error]'
   echo '- Cluster dose not exist'
   exit 1
 fi
 
-SERVICE_ARN=`aws ecs list-services --cluster ${CLUSTER_ARN} | jq -r '.serviceArns[]' | grep ${TARGET_ENV}`
+SERVICE_ARN=`aws ecs list-services --cluster ${CLUSTER_ARN} --profile ${AWS_PROFILE} | jq -r '.serviceArns[]' | grep ${TARGET_ENV}`
 if [ "${SERVICE_ARN}" = "" ]; then
   echo '[Error]'
   echo '- Service dose not exist'
   exit 1
 fi
 
-TASK_DEFINITION_NAME=`aws ecs list-task-definitions | jq -r '.taskDefinitionArns[]' | grep ${TARGET_ENV}`
+TASK_DEFINITION_NAME=`aws ecs list-task-definitions --profile ${AWS_PROFILE} | jq -r '.taskDefinitionArns[]' | grep ${TARGET_ENV}`
 echo $TASK_DEFINITION_NAME
 if [ "${TASK_DEFINITION_NAME}" = "" ]; then
   echo '[Error]'
@@ -29,4 +31,9 @@ if [ "${TASK_DEFINITION_NAME}" = "" ]; then
   exit 1
 fi
 
-aws ecs update-service --cluster ${CLUSTER_ARN} --service ${SERVICE_ARN} --task-definition ${TASK_DEFINITION_NAME} --force-new-deployment 1>/dev/null
+aws ecs update-service \
+  --cluster ${CLUSTER_ARN} \
+  --service ${SERVICE_ARN} \
+  --task-definition ${TASK_DEFINITION_NAME} \
+  --force-new-deployment \
+  --profile ${AWS_PROFILE} 1>/dev/null

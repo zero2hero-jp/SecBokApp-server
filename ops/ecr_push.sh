@@ -4,7 +4,7 @@
 # AWS_REGIONとAWS_ACCOUNT_IDを記入しておく。
 #
 
-# ISSUE: 6
+AWS_PROFILE=secbokapp-cdk
 
 if [ "${TARGET_ENV}" = "" ]; then
   echo '[Error]'
@@ -32,11 +32,11 @@ if [ "${IMAGE_ID}" = "" ]; then
 fi
 
 # ECRに対してDockerクライアント認証をする。
-aws ecr get-login-password --region ${AWS_REGION} | 
+aws ecr get-login-password --region ${AWS_REGION} --profile ${AWS_PROFILE} | 
   docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
 
 # リポジトリのURIを取得
-REPO_URI=`aws ecr describe-repositories | 
+REPO_URI=`aws ecr describe-repositories --profile ${AWS_PROFILE} | 
   jq -r '.repositories[].repositoryUri' | 
   grep ${REPO_NAME}`
 

@@ -4,6 +4,8 @@
 # params was required.
 #
 
+AWS_PROFILE=secbokapp-cdk
+
 LOG_GROUP_ENV=$1
 if [ "${LOG_GROUP_ENV}" = "" ]; then
   LOG_GROUP_ENV=local
@@ -11,7 +13,7 @@ fi
 
 LOG_PREFIX=SecBokAppStack-${LOG_GROUP_ENV}-TaskDefinitionContainerLogGroup
 
-LOG_GROUP_NAME=`aws logs describe-log-groups --query 'logGroups[*].logGroupName' | 
+LOG_GROUP_NAME=`aws logs describe-log-groups --query 'logGroups[*].logGroupName' --profile ${AWS_PROFILE} | 
   jq -r '.[]' | 
   grep ${LOG_PREFIX}`
 
@@ -19,4 +21,4 @@ echo '############'
 echo $LOG_GROUP_NAME
 echo '############'
 
-aws logs tail --since 3h --follow ${LOG_GROUP_NAME}
+aws logs tail --since 3h --follow ${LOG_GROUP_NAME} --profile ${AWS_PROFILE}
