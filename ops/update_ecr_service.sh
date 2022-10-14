@@ -4,6 +4,11 @@ if [ "${AWS_PROFILE}" = "" ]; then
   AWS_PROFILE=secbokapp-cdk
 fi
 
+# GitHub Actions用
+if [ "${AWS_PROFILE}" = "default" ]; then
+  AWS_PROFILE=''
+fi
+
 if [ "${TARGET_ENV}" = "" ]; then
   echo '[Error]'
   echo '- TARGET_ENV param required. [ local | dev | prod ]'
