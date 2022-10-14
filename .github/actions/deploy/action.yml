@@ -43,7 +43,7 @@ runs:
     - name: Update fargate service
       shell: bash
       run: |
-        TARGET_ENV=${{ inputs.env }} ./ops/update_ecr_service.sh
+        TARGET_ENV=${{ inputs.env }} AWS_PROFILE=default ./ops/update_ecr_service.sh
 
     - name: rails db:migrate
       shell: bash

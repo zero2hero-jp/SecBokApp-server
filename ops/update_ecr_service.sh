@@ -1,6 +1,8 @@
 #!/bin/bash
 
-AWS_PROFILE=secbokapp-cdk
+if [ "${AWS_PROFILE}" = "" ]; then
+  AWS_PROFILE=secbokapp-cdk
+fi
 
 if [ "${TARGET_ENV}" = "" ]; then
   echo '[Error]'
