@@ -1,6 +1,8 @@
 #!/bin/bash
 
-AWS_PROFILE=secbokapp-cdk
+if [ "${AWS_PROFILE}" != "github-actions" ]; then
+  AWS_PROFILE=secbokapp-cdk
+fi
 
 if [ "${TARGET_ENV}" = "" ]; then
   echo '[Error]'
@@ -9,21 +11,29 @@ if [ "${TARGET_ENV}" = "" ]; then
   exit 1
 fi
 
-CLUSTER_ARN=`aws ecs list-clusters --profile ${AWS_PROFILE} | jq -r '.clusterArns[]' | grep ${TARGET_ENV}`
+if [ "${AWS_PROFILE}" = "github-actions" ]; then;
+  CLUSTER_ARN=`aws ecs list-clusters | jq -r '.clusterArns[]' | grep ${TARGET_ENV}`
+else
+  CLUSTER_ARN=`aws ecs list-clusters --profile ${AWS_PROFILE} | jq -r '.clusterArns[]' | grep ${TARGET_ENV}`
+fi
 if [ "${CLUSTER_ARN}" = "" ]; then
   echo '[Error]'
   echo '- Cluster dose not exist'
   exit 1
 fi
 
-SERVICE_ARN=`aws ecs list-services --cluster ${CLUSTER_ARN} --profile ${AWS_PROFILE} | jq -r '.serviceArns[]' | grep ${TARGET_ENV}`
+if [ "${AWS_PROFILE}" = "github-actions" ]; then;
+  SERVICE_ARN=`aws ecs list-services --cluster ${CLUSTER_ARN} | jq -r '.serviceArns[]' | grep ${TARGET_ENV}`
+else
+  SERVICE_ARN=`aws ecs list-services --cluster ${CLUSTER_ARN} --profile ${AWS_PROFILE} | jq -r '.serviceArns[]' | grep ${TARGET_ENV}`
+fi
 if [ "${SERVICE_ARN}" = "" ]; then
   echo '[Error]'
   echo '- Service dose not exist'
   exit 1
 fi
 
-if [ "${AWS_PROFILE}" = "cdk" ]; then;
+if [ "${AWS_PROFILE}" = "github-actions" ]; then;
   TASK_DEFINITION_NAME=`aws ecs list-task-definitions | jq -r '.taskDefinitionArns[]' | grep ${TARGET_ENV}`
 else
   TASK_DEFINITION_NAME=`aws ecs list-task-definitions --profile ${AWS_PROFILE} | jq -r '.taskDefinitionArns[]' | grep ${TARGET_ENV}`
@@ -35,9 +45,17 @@ if [ "${TASK_DEFINITION_NAME}" = "" ]; then
   exit 1
 fi
 
-aws ecs update-service \
-  --cluster ${CLUSTER_ARN} \
-  --service ${SERVICE_ARN} \
-  --task-definition ${TASK_DEFINITION_NAME} \
-  --force-new-deployment \
-  --profile ${AWS_PROFILE} 1>/dev/null
+if [ "${AWS_PROFILE}" = "github-actions" ]; then;
+  aws ecs update-service \
+    --cluster ${CLUSTER_ARN} \
+    --service ${SERVICE_ARN} \
+    --task-definition ${TASK_DEFINITION_NAME} \
+    --force-new-deployment 1>/dev/null
+else
+  aws ecs update-service \
+    --cluster ${CLUSTER_ARN} \
+    --service ${SERVICE_ARN} \
+    --task-definition ${TASK_DEFINITION_NAME} \
+    --force-new-deployment \
+    --profile ${AWS_PROFILE} 1>/dev/null
+fi
