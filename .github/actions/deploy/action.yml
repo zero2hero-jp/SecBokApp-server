@@ -45,7 +45,7 @@ runs:
       run: |
         TARGET_ENV=${{ inputs.env }} GITHUB_ACTIONS=true ./ops/update_ecr_service.sh
 
-    - name: rails db:migrate
-      shell: bash
-      run: |
-        TARGET_ENV=${{ inputs.env }} GITHUB_ACTIONS=true ./ops/rails_task.sh db:migrate
+    #- name: rails db:migrate
+    #  shell: bash
+    #  run: |
+    #    TARGET_ENV=${{ inputs.env }} GITHUB_ACTIONS=true ./ops/rails_task.sh db:migrate
