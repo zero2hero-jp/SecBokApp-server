@@ -1,13 +1,6 @@
 #!/bin/bash
 
-if [ "${AWS_PROFILE}" = "" ]; then
-  AWS_PROFILE=secbokapp-cdk
-fi
-
-# GitHub Actions用
-if [ "${AWS_PROFILE}" = "default" ]; then
-  AWS_PROFILE=''
-fi
+AWS_PROFILE=secbokapp-cdk
 
 if [ "${TARGET_ENV}" = "" ]; then
   echo '[Error]'
@@ -30,7 +23,11 @@ if [ "${SERVICE_ARN}" = "" ]; then
   exit 1
 fi
 
-TASK_DEFINITION_NAME=`aws ecs list-task-definitions --profile ${AWS_PROFILE} | jq -r '.taskDefinitionArns[]' | grep ${TARGET_ENV}`
+if [ "${AWS_PROFILE}" = "cdk" ]; then;
+  TASK_DEFINITION_NAME=`aws ecs list-task-definitions | jq -r '.taskDefinitionArns[]' | grep ${TARGET_ENV}`
+else
+  TASK_DEFINITION_NAME=`aws ecs list-task-definitions --profile ${AWS_PROFILE} | jq -r '.taskDefinitionArns[]' | grep ${TARGET_ENV}`
+if
 echo $TASK_DEFINITION_NAME
 if [ "${TASK_DEFINITION_NAME}" = "" ]; then
   echo '[Error]'
