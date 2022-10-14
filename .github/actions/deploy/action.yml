@@ -27,18 +27,18 @@ runs:
         aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
         aws-region: ${{ inputs.aws_region }}
 
-    #- name: Login to Amazon ECR
-    #  id: login-ecr
-    #  uses: aws-actions/amazon-ecr-login@v1
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
 
-    #- name: Build, tag, and push image to Amazon ECR
-    #  env:
-    #    ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-    #    ECR_REPOSITORY: ${{ inputs.aws_repo_name }}
-    #  shell: bash
-    #  run: |
-    #    DOCKER_BUILDKIT=1 docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
-    #    docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ inputs.aws_repo_name }}
+      shell: bash
+      run: |
+        DOCKER_BUILDKIT=1 docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
     - name: Update fargate service
       shell: bash
