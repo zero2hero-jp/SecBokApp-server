@@ -43,3 +43,7 @@ $ docker compose up
 
 4. 動作確認
 - ブラウザで、`http://localhost/health_check`にアクセス。
+
+## デプロイ
+- ステージングへのデプロイは、github上で`development`ブランチにmergeされるとデプロイが開始します。
+- 本番へのデプロイは、github上で`main`ブランチにmergeされるとデプロイが開始します。
