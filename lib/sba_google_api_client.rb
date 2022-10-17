@@ -2,7 +2,6 @@ require 'googleauth'
 require 'google/apis/drive_v3'
 
 class SbaGoogleApiClient
-  JSON_FILE = './config/google_service_account.json'
   SCOPE = [
     'https://www.googleapis.com/auth/drive',
     'https://www.googleapis.com/auth/spreadsheets'
@@ -25,8 +24,9 @@ class SbaGoogleApiClient
     drive = ::Google::Apis::DriveV3::DriveService.new
     drive.authorization = @auth
     
-    # 動作確認用コード
+    # 疎通動作確認用コード
     #list_files = drive.list_files()
+    #puts list_files
 
     return 'TODO: please impliment me.'
   end
