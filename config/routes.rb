@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :forms, only: [:index, :show, :update]
+      resources :sheets, only: [:index, :show, :create, :update]
     end
   end
 end

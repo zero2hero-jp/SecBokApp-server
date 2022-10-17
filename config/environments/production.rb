@@ -74,6 +74,11 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
+  #
+  # SMTP
+  #config.action_mailer.delivery_method = :smtp
+  #config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
+  #config.action_mailer.raise_delivery_errors = true
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)

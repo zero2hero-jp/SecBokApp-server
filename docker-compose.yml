@@ -6,6 +6,7 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - postgres_volume:/var/lib/postgresql/data
+
   api:
     image: secbokapp-server
     build:
@@ -19,6 +20,13 @@ services:
       - 3000:3000
     environment:
       EDITOR: vi
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    container_name: mailcatcher
+    ports:
+      - 1080:1080
+      - 1025:1025
 
 volumes:
   app_bundle_volume:

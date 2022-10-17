@@ -3,7 +3,6 @@
 # 事前に、.evnファイルに、
 # AWS_REGIONとAWS_ACCOUNT_IDを記入しておく。
 #
-
 AWS_PROFILE=secbokapp-cdk
 
 if [ "${TARGET_ENV}" = "" ]; then
