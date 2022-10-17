@@ -15,8 +15,20 @@ $ git clone git@github.com:zero2hero-jp/SecBokApp-server.git
 $ cd SeckBokApp-server
 ```
 
-2. .env.developmentファイルを作成
-- 内容は管理者に問合せて下さい。
+2. aws情報の設定
+- 以下のファイルの設定内容を管理者に問い合わせて入力して下さい。
+```
+# ~/.aws/config
+
+[profile secbokapp-cdk]
+output = json
+region = 
+aws_access_key_id = 
+aws_secret_access_key = 
+```
+
+3. .env.developmentファイルを作成
+- 以下のファイルの設定内容を管理者に問い合わせて入力して下さい。
 ```
 RAILS_LOG_TO_STDOUT=true
 
@@ -26,23 +38,20 @@ DATABASE_PASSWORD=
 DATABASE_NAME=
 DATABASE_NAME_TEST=
 DATABASE_NAME_PRODUCTION=
-
-AWS_REGION=
-AWS_ACCOUNT_ID=
 ```
 
-2. DB作成とマイグレーション
+4. DB作成とマイグレーション
 ```
 $ docker compose run --rm api rails db:create
 $ docker compose run --rm api rails db:migrate
 ```
 
-3. 起動
+5. 起動
 ```
 $ docker compose up
 ```
 
-4. 動作確認
+6. 動作確認
 - ブラウザで、`http://localhost/health_check`にアクセス。
 
 ## デプロイ

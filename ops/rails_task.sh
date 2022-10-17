@@ -73,6 +73,6 @@ aws ecs run-task \
 --network-configuration "${NETWORK_CONFIG}" \
 --launch-type FARGATE \
 ${AWS_PROFILE} \
---overrides file://overrides.json
+--overrides file://overrides.json 1>/dev/null
 
 rm -rf ${OVERRIDE_FILE}
