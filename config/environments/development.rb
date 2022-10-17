@@ -63,7 +63,7 @@ Rails.application.configure do
   # SMTP
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = { 
-    address: ENV['SMTP_ADDRESS'],
+    address: ENV['SMTP_HOST'],
     port: ENV['SMTP_PORT']
   }
   config.action_mailer.raise_delivery_errors = true

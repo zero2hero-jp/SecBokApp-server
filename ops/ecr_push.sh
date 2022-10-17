@@ -1,9 +1,8 @@
 #!/bin/bash
-#
-# 事前に、.evnファイルに、
-# AWS_REGIONとAWS_ACCOUNT_IDを記入しておく。
-#
+
 AWS_PROFILE=secbokapp-cdk
+AWS_REGION=ap-northeast-1
+AWS_ACCOUNT_ID=`aws sts get-caller-identity --profile secbokapp-cdk --query 'Account' --output text`
 
 if [ "${TARGET_ENV}" = "" ]; then
   echo '[Error]'
@@ -13,9 +12,7 @@ if [ "${TARGET_ENV}" = "" ]; then
 fi
 REPO_NAME=ecr-${TARGET_ENV}
 
-AWS_REGION=`cat .env.development | grep AWS_REGION | awk -F'[=]' '{print $2}'`
-AWS_ACCOUNT_ID=`cat .env.development | grep AWS_ACCOUNT_ID | awk -F'[=]' '{print $2}'`
-if [ "${AWS_REGION}" = "" ] || [ "${AWS_ACCOUNT_ID}" = "" ]; then
+if [ "${AWS_ACCOUNT_ID}" = "" ]; then
   echo '[Error]'
   echo '- aws_resion or asw_account_id settings not found.'
   echo '- Please check your .evn.development file.'
