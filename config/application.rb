@@ -5,11 +5,11 @@ require "rails"
 require "active_model/railtie"
 require "active_job/railtie"
 require "active_record/railtie"
-require "active_storage/engine"
+#require "active_storage/engine"
 require "action_controller/railtie"
 require "action_mailer/railtie"
-require "action_mailbox/engine"
-require "action_text/engine"
+#require "action_mailbox/engine"
+#require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
 # require "rails/test_unit/railtie"
@@ -40,5 +40,11 @@ module App
     config.middleware.delete ActionDispatch::HostAuthorization
 
     config.autoload_paths << Rails.root.join("lib")
+
+    # GoogleApi credential settings
+    ENV['GOOGLE_CLIENT_ID']    = Rails.application.credentials.google_api.client_id.to_s
+    ENV['GOOGLE_CLIENT_EMAIL'] = Rails.application.credentials.google_api.client_email
+    ENV['GOOGLE_ACCOUNT_TYPE'] = Rails.application.credentials.google_api.account_type
+    ENV['GOOGLE_PRIVATE_KEY']  = Rails.application.credentials.google_api.private_key
   end
 end

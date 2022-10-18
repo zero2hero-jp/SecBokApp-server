@@ -1,4 +1,4 @@
-name: '[ Development ] ECR Deploy'
+name: '[ Development ] ECS Deploy'
 
 on: 
   push:
@@ -9,7 +9,7 @@ on:
       - .gitignore
 
 jobs:
-  Deploy-ECR:
+  Deploy-ECS:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
