@@ -40,4 +40,4 @@ aws ecs update-service \
   --service ${SERVICE_ARN} \
   --task-definition ${TASK_DEFINITION_NAME} \
   --force-new-deployment \
-  ${AWS_PROFILE} 1>/dev/null
+  ${AWS_PROFILE}

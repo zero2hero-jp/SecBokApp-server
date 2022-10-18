@@ -21,8 +21,7 @@ if [ "${COMMAND}" = "" ]; then
   exit 1
 fi
 
-OVERRIDE_FILE=./overrides.json
-
+OVERRIDE_FILE=overrides.json
 FAMILY_NAME=task-${TARGET_ENV}
 
 CLUSTER_ARN=`aws ecs list-clusters ${AWS_PROFILE} | jq -r '.clusterArns[]' | grep ${TARGET_ENV}`
@@ -73,6 +72,6 @@ aws ecs run-task \
 --network-configuration "${NETWORK_CONFIG}" \
 --launch-type FARGATE \
 ${AWS_PROFILE} \
---overrides file://overrides.json 1>/dev/null
+--overrides file://${OVERRIDE_FILE}
 
 rm -rf ${OVERRIDE_FILE}
