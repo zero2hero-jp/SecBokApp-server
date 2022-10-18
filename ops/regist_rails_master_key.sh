@@ -1,12 +1,13 @@
 #!/bin/sh
 
 AWS_PROFILE=secbokapp-cdk
+MASTER_KEY=`cat config/master.key`
 
-if [ "$1" = "" ]; then
-  echo "ERROR: require env param."
-  echo "ex) ./opt/regist_rails_master_key.sh local"
-  exit
+if [ "${TARGET_ENV}" = "" ]; then
+  echo '[Error]'
+  echo '- TARGET_ENV param required. [ local | dev | prod ]'
+  echo '- ex) TARGET_ENV=local ./ops/regist_rails_master_key.sh'
+  exit 1
 fi
 
-MASTER_KEY=`cat config/master.key`
-aws secretsmanager update-secret --secret-id rails-master-key-$1 --secret-string {\"railsMasterKey\":\"${MASTER_KEY}\"} --profile ${AWS_PROFILE}
+aws secretsmanager update-secret --secret-id rails-master-key-${TARGET_ENV} --secret-string {\"railsMasterKey\":\"${MASTER_KEY}\"} --profile ${AWS_PROFILE}
