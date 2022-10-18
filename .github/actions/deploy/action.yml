@@ -43,9 +43,11 @@ runs:
     - name: Update fargate service
       shell: bash
       run: |
+        echo "Update fargate service."
         TARGET_ENV=${{ inputs.env }} GITHUB_ACTIONS=true ./ops/update_ecr_service.sh
 
     - name: rails db:migrate
       shell: bash
       run: |
+        echo "Running rails db:migrate"
         TARGET_ENV=${{ inputs.env }} GITHUB_ACTIONS=true ./ops/rails_task.sh db:migrate
