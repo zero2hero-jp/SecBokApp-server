@@ -1,18 +1,34 @@
 class Api::V1::SheetsController < Api::V1::ApiController
   before_action :set_sheet, only: %i[ show update ]
 
+  # TODO: テスト実装
   def index
     @sheets = Sheet.all
 
-    render json: @sheets
+    render json: @sheets, 
+      root: 'data', 
+      adapter: :json, 
+      each_serializer: SheetSerializer, 
+      status: :ok
   end
 
+  # TODO: テスト実装
   def show
-    render json: @sheet
+    # TODO: [TBD]serializerで返す値を実装。IDしか返っていない。
+    render serializer_json, status: :ok
   end
 
+  # TODO: テスト実装
   # POST /sheets
   # From google form send button.
+  # メールアドレスの登録がない場合は、以下の初回登録作業をおこなう。
+  # 1. シートをコピー
+  # 2. シート対する権限をメアドに与える
+  # 3. シートモデルを作成して保存する
+  # 4. シートとレポートのURLをメールに送信する
+  #
+  # メールアドレスが登録済みの場合は、以下の処理をする。
+  # 1. シートとレポートのURLをメールに送信する
   def create
     @sheet = Sheet.find_by(email: params[:sheet][:email])
 
@@ -27,21 +43,26 @@ class Api::V1::SheetsController < Api::V1::ApiController
 
       if @sheet.save!
         SheetMailer.send_sheet_and_report_url(@sheet).deliver_now
-        render json: @sheet, status: :created
+        render serializer_json, status: :created
       else
         render json: @sheet.errors, status: :unprocessable_entity
       end
     end
   end
 
+  # TODO: テスト実装
   # PUT /sheets/[:spreadsheet_id]
   # From google spreadsheet send button.
+  # spreadsheetから送信されてきたパラメータを使用して、以下の作業をする。
+  # 1. Sheetに関連するモデルを全削＆全保存。
+  # 2. シートとレポートのURLをメールに送信する
   def update
-    # TODO:
+    # TODO: 以下の実装
     # インプットがシートなので、IDがパラメータで渡ってこないため
     # アップデートしようとすると全てインサートになる。
     # アップデートする前に、関連レコードを全消しする。
     if @sheet.update(sheet_params)
+      # TODO: serializer実装。何を返すかはTBD。
       render_remined
     else
       render json: @sheet.errors, status: :unprocessable_entity
@@ -64,6 +85,15 @@ class Api::V1::SheetsController < Api::V1::ApiController
 
     def render_remined
       SheetMailer.send_sheet_and_report_url(@sheet).deliver_now
-      render json: @sheet, status: :ok
+      render serializer_json, status: :ok
+    end
+
+    def serializer_json
+      {
+        json: @sheet, 
+        root: :data, 
+        serializer: 
+        SheetSerializer, 
+      }
     end
 end
