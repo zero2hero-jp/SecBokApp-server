@@ -7,7 +7,7 @@ class SbaGoogleApiClient
     'https://www.googleapis.com/auth/spreadsheets'
   ]
 
-  # jsonファイルを使わずに以下の環境変数をrails credentialsからセットしている
+  # jsonファイルを使わずに以下の環境変数をconfig/application.rbからセットしている
   # GOOGLE_CLIENT_ID / GOOGLE_CLIENT_EMAIL / GOOGLE_ACCOUNT_TYPE / GOOGLE_PRIVATE_KEY
   def initialize
     @auth = Google::Auth::ServiceAccountCredentials.make_creds(

@@ -52,3 +52,4 @@ end
 gem 'dotenv-rails'
 gem 'rack-cors'
 gem 'jwt'
+gem 'active_model_serializers'
