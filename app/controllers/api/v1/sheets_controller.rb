@@ -14,21 +14,24 @@ class Api::V1::SheetsController < Api::V1::ApiController
 
   # TODO: テスト実装
   def show
-    # TODO: [TBD]serializerで返す値を実装。IDしか返っていない。
+    # TODO: [TBD]serializerで返す値を実装。IDしか返っていない。それでもいいかも？
     render serializer_json, status: :ok
   end
 
-  # TODO: テスト実装
-  # POST /sheets
-  # From google form send button.
-  # メールアドレスの登録がない場合は、以下の初回登録作業をおこなう。
-  # 1. シートをコピー
-  # 2. シート対する権限をメアドに与える
-  # 3. シートモデルを作成して保存する
-  # 4. シートとレポートのURLをメールに送信する
+  # POST /sheets (From google form send button.)
   #
-  # メールアドレスが登録済みの場合は、以下の処理をする。
-  # 1. シートとレポートのURLをメールに送信する
+  # if メールアドレスの登録がない場合は、
+  #   (初回登録作業)
+  #   1. シートをコピー
+  #   2. シート対する権限をメアドに与える
+  #   3. シートモデルを作成して保存する
+  #   4. シートとレポートのURLをメールに送信する
+  #
+  # else メールアドレスが登録済みの場合は、
+  #   (リマインド)
+  #   1. シートとレポートのURLをメールに送信する
+  #
+  # TODO: テスト実装
   def create
     @sheet = Sheet.find_by(email: params[:sheet][:email])
 
@@ -48,14 +51,20 @@ class Api::V1::SheetsController < Api::V1::ApiController
         render json: @sheet.errors, status: :unprocessable_entity
       end
     end
+
+  # 処理されないStandardErrorをキャッチ
+  rescue => e
+    # TODO: rescueを実装せずに外部注入する
+    goodbye(e)
   end
 
-  # TODO: テスト実装
-  # PUT /sheets/[:spreadsheet_id]
-  # From google spreadsheet send button.
+  # PUT /sheets/[:spreadsheet_id] (From google spreadsheet send button.)
+  #
   # spreadsheetから送信されてきたパラメータを使用して、以下の作業をする。
   # 1. Sheetに関連するモデルを全削＆全保存。
   # 2. シートとレポートのURLをメールに送信する
+  #
+  # TODO: テスト実装
   def update
     # TODO: 以下の実装
     # インプットがシートなので、IDがパラメータで渡ってこないため
@@ -67,6 +76,8 @@ class Api::V1::SheetsController < Api::V1::ApiController
     else
       render json: @sheet.errors, status: :unprocessable_entity
     end
+  rescue => e
+    goodbye(e)
   end
 
   private
