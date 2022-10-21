@@ -1,7 +1,7 @@
 class Api::V1::SheetsController < Api::V1::ApiController
   before_action :set_sheet, only: %i[ show update ]
 
-  # TODO: テスト実装
+# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/20
   def index
     @sheets = Sheet.all
 
@@ -12,9 +12,9 @@ class Api::V1::SheetsController < Api::V1::ApiController
       status: :ok
   end
 
-  # TODO: テスト実装
+# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/21
   def show
-    # TODO: [TBD]serializerで返す値を実装。IDしか返っていない。それでもいいかも？
+# ISSUED: https://github.com/zero2hero-jp/SecBokApp-server/issues/27
     render serializer_json, status: :ok
   end
 
@@ -31,7 +31,7 @@ class Api::V1::SheetsController < Api::V1::ApiController
   #   (リマインド)
   #   1. シートとレポートのURLをメールに送信する
   #
-  # TODO: テスト実装
+# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/23
   def create
     @sheet = Sheet.find_by(email: params[:sheet][:email])
 
@@ -54,7 +54,7 @@ class Api::V1::SheetsController < Api::V1::ApiController
 
   # 処理されないStandardErrorをキャッチ
   rescue => e
-    # TODO: rescueを実装せずに外部注入する
+# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/24
     goodbye(e)
   end
 
@@ -64,14 +64,14 @@ class Api::V1::SheetsController < Api::V1::ApiController
   # 1. Sheetに関連するモデルを全削＆全保存。
   # 2. シートとレポートのURLをメールに送信する
   #
-  # TODO: テスト実装
+# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/25
   def update
-    # TODO: 以下の実装
+# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/26
     # インプットがシートなので、IDがパラメータで渡ってこないため
     # アップデートしようとすると全てインサートになる。
     # アップデートする前に、関連レコードを全消しする。
     if @sheet.update(sheet_params)
-      # TODO: serializer実装。何を返すかはTBD。
+# ISSUED: https://github.com/zero2hero-jp/SecBokApp-server/issues/22
       render_remined
     else
       render json: @sheet.errors, status: :unprocessable_entity
