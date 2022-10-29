@@ -1,7 +1,7 @@
 class Api::V1::SheetsController < Api::V1::ApiController
   before_action :set_sheet, only: %i[ show update ]
 
-# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/20
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/20
   def index
     @sheets = Sheet.all
 
@@ -12,9 +12,9 @@ class Api::V1::SheetsController < Api::V1::ApiController
       status: :ok
   end
 
-# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/21
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/21
   def show
-# ISSUED: https://github.com/zero2hero-jp/SecBokApp-server/issues/27
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/27
     render serializer_json, status: :ok
   end
 
@@ -31,7 +31,7 @@ class Api::V1::SheetsController < Api::V1::ApiController
   #   (リマインド)
   #   1. シートとレポートのURLをメールに送信する
   #
-# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/23
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/23
   def create
     @sheet = Sheet.find_by(email: params[:sheet][:email])
 
@@ -54,7 +54,7 @@ class Api::V1::SheetsController < Api::V1::ApiController
 
   # 処理されないStandardErrorをキャッチ
   rescue => e
-# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/24
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/24
     goodbye(e)
   end
 
@@ -64,14 +64,13 @@ class Api::V1::SheetsController < Api::V1::ApiController
   # 1. Sheetに関連するモデルを全削＆全保存。
   # 2. シートとレポートのURLをメールに送信する
   #
-# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/25
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/25
   def update
-# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/26
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/26
     # インプットがシートなので、IDがパラメータで渡ってこないため
     # アップデートしようとすると全てインサートになる。
     # アップデートする前に、関連レコードを全消しする。
     if @sheet.update(sheet_params)
-# ISSUED: https://github.com/zero2hero-jp/SecBokApp-server/issues/22
       render_remined
     else
       render json: @sheet.errors, status: :unprocessable_entity
@@ -96,6 +95,7 @@ class Api::V1::SheetsController < Api::V1::ApiController
 
     def render_remined
       SheetMailer.send_sheet_and_report_url(@sheet).deliver_now
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/22
       render serializer_json, status: :ok
     end
 

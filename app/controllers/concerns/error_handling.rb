@@ -7,7 +7,7 @@ module ErrorHandling
 
   def goodbye(e)
     if e.kind_of? StandardError
-# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/18
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/18
       render json: { 
         name: e.class.name,
         message: '何かが起こりました。'
@@ -17,7 +17,7 @@ module ErrorHandling
       logger.error e.message
       e.backtrace.each { |line| logger.error line }
 
-# ISSUED: https://github.com/zero2hero-jp/secbokapp-front/issues/19
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/19
     else
       raise e
     end
