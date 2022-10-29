@@ -3,6 +3,7 @@
 ## 環境
 | 環境 | Cfn Env | URL |
 | ---- | ----- | ----- |
+| CDK開発 | local | http://alb-local-1007258061.ap-northeast-1.elb.amazonaws.com/health_check |
 | ステージング | dev | http://alb-dev-839971225.ap-northeast-1.elb.amazonaws.com/health_check |
 | 本番 | prod | http://alb-prod-184231461.ap-northeast-1.elb.amazonaws.com/health_check |
 

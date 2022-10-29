@@ -54,7 +54,7 @@ class Api::V1::SheetsController < Api::V1::ApiController
 
   # 処理されないStandardErrorをキャッチ
   rescue => e
-    # AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/24
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/24
     goodbye(e)
   end
 
@@ -64,9 +64,9 @@ class Api::V1::SheetsController < Api::V1::ApiController
   # 1. Sheetに関連するモデルを全削＆全保存。
   # 2. シートとレポートのURLをメールに送信する
   #
-  # AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/25
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/25
   def update
-  # AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/26
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/26
     # インプットがシートなので、IDがパラメータで渡ってこないため
     # アップデートしようとすると全てインサートになる。
     # アップデートする前に、関連レコードを全消しする。

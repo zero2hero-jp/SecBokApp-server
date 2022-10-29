@@ -20,6 +20,7 @@ class SbaGoogleApiClient
   # 1. シートをコピーする
   # 2. コピーしたシートに、パラメーターで受け取ったemailで権限付与
   # 3. spread sheetにmaster.key使って署名いれる(ssにメタ情報セット欄あるか？)
+  # 4. コピーしたシートのIDをリターンする
   def build(email:)
     drive = ::Google::Apis::DriveV3::DriveService.new
     drive.authorization = @auth
