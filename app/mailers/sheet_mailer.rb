@@ -1,13 +1,13 @@
 class SheetMailer < ApplicationMailer
-  # TODO: [TBD]ちゃんとしたメールアドレスを設定
-  default from: 'hoge@hoge.com'
+  # AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/28
+  default from: 'tbd@zero2hero.jp'
 
   def send_sheet_and_report_url(sheet)
     @sheet = sheet
 
     mail(
       to: @sheet.email,
-      # TODO: [TBD]ちゃんとしたタイトル
+  # AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/29
       subject: 'Sheet送ります'
     )
   end

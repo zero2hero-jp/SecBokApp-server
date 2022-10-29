@@ -7,7 +7,7 @@ module ErrorHandling
 
   def goodbye(e)
     if e.kind_of? StandardError
-      # TODO: PX、error毎に丁寧に
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/18
       render json: { 
         name: e.class.name,
         message: '何かが起こりました。'
@@ -17,7 +17,7 @@ module ErrorHandling
       logger.error e.message
       e.backtrace.each { |line| logger.error line }
 
-      # TODO: サードパーティー製のバグトラッカーにプッシュ
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/19
     else
       raise e
     end
