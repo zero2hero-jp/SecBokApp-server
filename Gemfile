@@ -45,6 +45,9 @@ group :development, :test do
   # spec 関連
   gem 'rspec-rails'
   gem 'factory_bot_rails'
+  gem 'rspec-request_describer'
+  # デバッグ
+  gem 'pry-byebug'
 end
 
 group :development do
