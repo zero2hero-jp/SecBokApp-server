@@ -20,6 +20,7 @@ COPY . $APP_ROOT
 RUN <<EOF
   gem install bundler
   gem install rails -v $RAILS_VERSION
+  apk add --no-cache libc6-compat gcompat
   bundle install
 EOF
 
