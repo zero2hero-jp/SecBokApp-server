@@ -17,6 +17,9 @@ RUN mkdir -p $APP_ROOT
 WORKDIR $APP_ROOT
 COPY . $APP_ROOT
 
+# M1 Mac用
+RUN if [ "$(uname -m)" = "aarch64" ]; then apk add --no-cache libc6-compat gcompat; fi
+
 RUN <<EOF
   gem install bundler
   gem install rails -v $RAILS_VERSION
