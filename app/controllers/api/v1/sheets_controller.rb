@@ -70,6 +70,8 @@ class Api::V1::SheetsController < Api::V1::ApiController
     # インプットがシートなので、IDがパラメータで渡ってこないため
     # アップデートしようとすると全てインサートになる。
     # アップデートする前に、関連レコードを全消しする。
+    @sheet.years.destroy_all
+    @sheet.knowledges.destroy_all
     if @sheet.update(sheet_params)
       render_remined
     else
