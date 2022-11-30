@@ -3,6 +3,7 @@
 ## 環境
 | 環境 | Cfn Env | URL |
 | ---- | ----- | ----- |
+| CDK開発 | local | http://alb-local-1007258061.ap-northeast-1.elb.amazonaws.com/health_check |
 | ステージング | dev | http://alb-dev-839971225.ap-northeast-1.elb.amazonaws.com/health_check |
 | 本番 | prod | http://alb-prod-184231461.ap-northeast-1.elb.amazonaws.com/health_check |
 
@@ -39,19 +40,23 @@ DATABASE_NAME_TEST=
 DATABASE_NAME_PRODUCTION=
 ```
 
-4. DB作成とマイグレーション
+4.master.keyを管理者からもらってください。
+
+5. DB作成とマイグレーション
 ```
+$ docker comopse up -d
+
 $ docker compose run --rm api rails db:create
 $ docker compose run --rm api rails db:migrate
 ```
 
-5. 起動
+6. 起動
 ```
 $ docker compose up
 ```
 
 6. 動作確認
-- ブラウザで、`http://localhost/health_check`にアクセス。
+- ブラウザで、`http://localhost:3000/health_check`にアクセス。
 
 ## デプロイ
 - ステージングへのデプロイは、github上で`development`ブランチにmergeされるとデプロイが開始します。

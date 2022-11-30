@@ -7,7 +7,7 @@ class SbaGoogleApiClient
     'https://www.googleapis.com/auth/spreadsheets'
   ]
 
-  # jsonファイルを使わずに以下の環境変数をrails credentialsからセットしている
+  # jsonファイルを使わずに以下の環境変数をconfig/application.rbからセットしている
   # GOOGLE_CLIENT_ID / GOOGLE_CLIENT_EMAIL / GOOGLE_ACCOUNT_TYPE / GOOGLE_PRIVATE_KEY
   def initialize
     @auth = Google::Auth::ServiceAccountCredentials.make_creds(
@@ -16,7 +16,7 @@ class SbaGoogleApiClient
     @auth.fetch_access_token!
   end
 
-  # ISSUE: https://github.com/zero2hero-jp/SecBokApp-server/issues/4
+# AT_SEE: https://github.com/zero2hero-jp/SecBokApp-server/issues/4
   # 1. シートをコピーする
   # 2. コピーしたシートに、パラメーターで受け取ったemailで権限付与
   # 3. spread sheetにmaster.key使って署名いれる(ssにメタ情報セット欄あるか？)

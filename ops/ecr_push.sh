@@ -2,7 +2,7 @@
 
 AWS_PROFILE=secbokapp-cdk
 AWS_REGION=ap-northeast-1
-AWS_ACCOUNT_ID=`aws sts get-caller-identity --profile secbokapp-cdk --query 'Account' --output text`
+AWS_ACCOUNT_ID=`aws sts get-caller-identity --profile ${AWS_PROFILE} --query 'Account' --output text`
 
 if [ "${TARGET_ENV}" = "" ]; then
   echo '[Error]'
